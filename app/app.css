@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #c5a33c;
+  --secondary: #121a00;
+  --accent: #e6c76b;
+  --text-light: #f8f5eb;
+  --text-dark: #121a00;
+  --transition: all 0.3s ease;
+}
+
+ActionBar {
+  background-color: var(--secondary);
+  color: var(--text-light);
+}
+
+.page {
+  background-color: var(--primary);
+}
+
+.btn {
+  font-size: 16;
+  padding: 16;
+  margin: 10;
+  border-radius: 8;
+  transition: var(--transition);
+}
+
+.btn-primary {
+  background-color: var(--secondary);
+  color: var(--text-light);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background-color: var(--accent);
+  color: var(--text-dark);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}
+
+.bg-secondary {
+  background-color: var(--secondary);
+}
+
+.card {
+  background-color: var(--text-light);
+  border-radius: 12;
+  padding: 16;
+  margin: 8;
+  elevation: 3;
+}
+
+.input-field {
+  background-color: var(--text-light);
+  border-radius: 6;
+  padding: 12;
+  margin: 8;
+  border-width: 1;
+  border-color: var(--accent);
+}
+
+.status-text {
+  color: var(--text-dark);
+  font-size: 14;
+  margin-top: 8;
+  opacity: 0.8;
+}
+
+/* Loading Animation */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.loading {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Feedback Indicators */
+.success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.error {
+  background-color: #f44336;
+  color: white;
+}
+
+.info {
+  background-color: var(--accent);
+  color: var(--text-dark);
+}
