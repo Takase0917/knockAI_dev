@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { fade, fly } from 'svelte/transition';
   
@@ -113,4 +113,4 @@
       </button>
     </div>
   </div>
-</div>
+</div> -->

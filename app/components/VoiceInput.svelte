@@ -1,4 +1,4 @@
-<page>
+<!-- <page>
     <actionBar title="音声入力">
         <navigationButton text="戻る" android.systemIcon="ic_menu_back" tap="{{ goBack }}" />
     </actionBar>
@@ -47,4 +47,4 @@
         50% { transform: scale(1.1); }
         100% { transform: scale(1); }
     }
-</style>
+</style> -->

@@ -1,4 +1,4 @@
-<page>
+<!-- <page>
     <actionBar title="写真撮影">
         <navigationButton text="戻る" android.systemIcon="ic_menu_back" tap="{{ goBack }}" />
     </actionBar>
@@ -43,4 +43,4 @@
         color: white;
         border-radius: 4;
     }
-</style>
+</style> -->

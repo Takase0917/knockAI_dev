@@ -2,17 +2,27 @@
   import { onMount } from 'svelte';
   import Header from './components/Header.svelte';
   import EstimationForm from './components/EstimationForm.svelte';
-  import ImageUpload from './components/ImageUpload.svelte';
+  // import ImageUpload from './ßcomponents/ImageUpload.svelte';
   import EstimationResult from './components/EstimationResult.svelte';
+  import Alert from './components/Alert.svelte';
   
   let isLoading = false;
   let currentStep = 'form';
   let estimationData = {};
-  
+  let alertMessage = '';
+  let alertType: 'success' | 'error' | 'info' = 'info';
+  let showAlert = false;
+
   function handleLogin() {
     currentStep = 'home';
   }
-  
+
+  function showAlertMessage(message: string, type: 'success' | 'error' | 'info') {
+    alertMessage = message;
+    alertType = type;
+    showAlert = true;
+  }
+
   onMount(() => {
     // Initialize the application
     document.documentElement.classList.add('bg-background');
@@ -23,6 +33,10 @@
   <Header on:login={handleLogin} />
   
   <div class="container mx-auto px-4 py-8">
+    {#if showAlert}
+      <Alert message={alertMessage} type={alertType} onClose={() => showAlert = false} />
+    {/if}
+
     {#if isLoading}
       <div class="flex justify-center items-center h-64">
         <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
@@ -53,19 +67,17 @@
         </div>
       {:else if currentStep === 'form'}
         <EstimationForm 
-          on:next={() => currentStep = 'image'} 
-          bind:estimationData
-        />
-      {:else if currentStep === 'image'}
-        <ImageUpload 
-          on:next={() => currentStep = 'result'}
-          on:back={() => currentStep = 'form'}
+          on:next={(event) => {
+            estimationData = event.detail.estimationDetails;
+            currentStep = 'result';
+            showAlertMessage('見積りが完了しました！', 'success');
+          }} 
           bind:estimationData
         />
       {:else if currentStep === 'result'}
         <EstimationResult 
           {estimationData}
-          on:back={() => currentStep = 'image'}
+          on:back={() => currentStep = 'form'}
         />
       {/if}
     {/if}
