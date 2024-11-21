@@ -78,82 +78,104 @@
   isSubmitting = true;
 
   try {
-    const userMessage = `
-    以下の情報に基づき、見積りの詳細と合計金額（税抜）を算出してください。
-    **出力は有効なJSON形式で、コメントや追加の説明は含めず、値はすべて埋めてください。**
-    出力フォーマットは以下のJSON形式で返してください：
-    {
-      "productName": "製品名",
-      "quantity": 数量,
-      "totalPrice": 合計金額（数値のみ）,
-      "details": {
-        "dimensions": {
-          "width": 幅,
-          "height": 高さ,
-          "depth": 奥行き
-        },
-        "material": 材料,
-        "materialCosts": [
-          { "name": "材料名", "price": 材料価格 }
-        ],
-        "surfaceFinish": 表面仕上げ,
-        "handleOption": ハンドルオプション,
-        "hingeOption": 蝶番オプション,
-        "additionalHardware": [ "追加金物" ],
-        "customDesign": カスタム要件
-      }
-    }
-    **注意：出力は有効なJSON形式で、コメントや追加の説明は含めないでください。**
+  //   const userMessage = `
+  //   以下の情報に基づき、見積りの詳細と合計金額（税抜）を算出してください。
+  //   **出力は有効なJSON形式で、コメントや追加の説明は含めず、値はすべて埋めてください。**
+  //   出力フォーマットは以下のJSON形式で返してください：
+  //   {
+  //     "productName": "製品名",
+  //     "quantity": 数量,
+  //     "totalPrice": 合計金額（数値のみ）,
+  //     "details": {
+  //       "dimensions": {
+  //         "width": 幅,
+  //         "height": 高さ,
+  //         "depth": 奥行き
+  //       },
+  //       "material": 材料,
+  //       "materialCosts": [
+  //         { "name": "材料名", "price": 材料価格 }
+  //       ],
+  //       "surfaceFinish": 表面仕上げ,
+  //       "handleOption": ハンドルオプション,
+  //       "hingeOption": 蝶番オプション,
+  //       "additionalHardware": [ "追加金物" ],
+  //       "customDesign": カスタム要件
+  //     }
+  //   }
+  //   **注意：出力は有効なJSON形式で、コメントや追加の説明は含めないでください。**
 
-    以下の情報を基に計算してください：
-    製品名: ${productName}
-    数量: ${quantity}
-    寸法: 幅 ${width}mm, 高さ ${height}mm, 奥行き ${depth ? `${depth}mm` : "未指定"}
-    材料: ${material}
-    材料費内訳: ${materialCosts ? materialCosts.map(c => `${c.name}: ¥${c.price}`).join(', ') : "未指定"}
-    表面仕上げ: ${surfaceFinish}
-    ハンドルオプション: ${handleOption ? handleOption : "なし"}
-    蝶番オプション: ${hingeOption ? hingeOption : "なし"}
-    追加金物: ${additionalHardware.length > 0 ? additionalHardware.join(', ') : "なし"}
-    カスタム要件: ${customDesign ? customDesign : "特になし"}
-    `;
+  //   以下の情報を基に計算してください：
+  //   製品名: ${productName}
+  //   数量: ${quantity}
+  //   寸法: 幅 ${width}mm, 高さ ${height}mm, 奥行き ${depth ? `${depth}mm` : "未指定"}
+  //   材料: ${material}
+  //   材料費内訳: ${materialCosts ? materialCosts.map(c => `${c.name}: ¥${c.price}`).join(', ') : "未指定"}
+  //   表面仕上げ: ${surfaceFinish}
+  //   ハンドルオプション: ${handleOption ? handleOption : "なし"}
+  //   蝶番オプション: ${hingeOption ? hingeOption : "なし"}
+  //   追加金物: ${additionalHardware.length > 0 ? additionalHardware.join(', ') : "なし"}
+  //   カスタム要件: ${customDesign ? customDesign : "特になし"}
+  //   `;
 
 
-    // Call the Mistral AI model
-    const chatResponse = await client.chat.complete({
-      model: 'ft:open-mistral-7b:3ace85a6:20241111:90780761',
-      messages: [{ role: 'user', content: userMessage }],
-    });
+  //   // Call the Mistral AI model
+  //   const chatResponse = await client.chat.complete({
+  //     model: 'ft:open-mistral-7b:3ace85a6:20241111:90780761',
+  //     messages: [{ role: 'user', content: userMessage }],
+  //   });
 
-    const aiOutput = JSON.parse(chatResponse.choices[0].message.content);
+  //   const aiOutput = JSON.parse(chatResponse.choices[0].message.content);
 
-    estimationDetails = {
-      productName: aiOutput.productName,
-      quantity: aiOutput.quantity,
-      totalPrice: aiOutput.totalPrice,
-      materials: aiOutput.details.materials || [],
-      laborCost: aiOutput.details.laborCost || 0,
-      deliveryDate: aiOutput.details.deliveryDate || '',
-      notes: aiOutput.details.notes || '',
-      details: aiOutput.details,
-      totalPrice : aiOutput.totalPrice
-  };
+  //   estimationDetails = {
+  //     productName: aiOutput.productName,
+  //     quantity: aiOutput.quantity,
+  //     totalPrice: aiOutput.totalPrice,
+  //     materials: aiOutput.details.materials || [],
+  //     laborCost: aiOutput.details.laborCost || 0,
+  //     deliveryDate: aiOutput.details.deliveryDate || '',
+  //     notes: aiOutput.details.notes || '',
+  //     details: aiOutput.details,
+  //     totalPrice : aiOutput.totalPrice
+  // };
   
-  console.log('Estimation details:', estimationDetails);
-  console.log('totalPrice:', estimationDetails.totalPrice);
+  // console.log('Estimation details:', estimationDetails);
+  // console.log('totalPrice:', estimationDetails.totalPrice);
 
-    // // Mock response instead of calling the Mistral AI model
-    // const mockResponse = {
-    //     totalPrice: '10000', // Example estimated cost
-    //     materials: ['Wood', 'Metal'],
-    //     laborCost: 2000,
-    //     deliveryDate: '2023-12-01',
-    //     notes: 'This is a mock estimation.'
-    //   };
+    // Mock response instead of calling the Mistral AI model
+    const mockResponse = {
+      productName: 'ドア',
+      quantity: 2,
+      totalPrice: 50000,
+      materials: [
+        { name: '無垢材', price: 30000 },
+        { name: 'メラミン', price: 20000 }
+      ],
+      laborCost: 5000,
+      deliveryDate: '2022-12-31',
+      notes: '特になし',
+      details: {
+        dimensions: {
+          width: 800,
+          height: 2000,
+          depth: 40
+        },
+        material: '無垢材',
+        materialCosts: [
+          { name: '無垢材', price: 30000 },
+          { name: 'メラミン', price: 20000 }
+        ],
+        surfaceFinish: '木材（クリア塗装）',
+        handleOption: '標準',
+        hingeOption: '標準',
+        additionalHardware: ['ドアクローザー'],
+        customDesign: '特になし'
+      }
+      };
 
-    // // Update estimationDetails with the mock data
-    // estimationDetails = mockResponse;
-    // console.log('Estimation details:', estimationDetails);
+    // Update estimationDetails with the mock data
+    estimationDetails = mockResponse;
+    console.log('Estimation details:', estimationDetails);
 
     // Dispatch the totalPrice to the parent component
     dispatch('next', {
